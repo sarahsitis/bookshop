@@ -32,7 +32,7 @@ class Auth extends CI_Controller
     private function _login()
     {
         $email = $this->input->post('email');
-        $password = $this->input->post('password1');
+        $password = $this->input->post('password');
         $user = $this->db->get_where('user', ['email' => $email])->row_array();
 
         if ($user) {
@@ -40,6 +40,7 @@ class Auth extends CI_Controller
             if ($user['is_active'] == 1) {
                 // user active
                 // check password
+
                 if (password_verify($password, $user['password'])) {
                     // password valid
                     $data = [
@@ -92,7 +93,7 @@ class Auth extends CI_Controller
                 'name' => htmlspecialchars($this->input->post('name', true)),
                 'email' => htmlspecialchars($this->input->post('email', true)),
                 'image' => 'default.jpg',
-                'password' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                'password' => password_hash($this->input->post('password1'), PASSWORD_DEFAULT),
                 'role_id' => 2,
                 'is_active' => 1,
                 'date_created' => time()

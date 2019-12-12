@@ -90,9 +90,6 @@ class User extends CI_Controller
             $current_password = $this->input->post('current_password');
             $new_password = $this->input->post('new_password1');
 
-            var_dump($current_password);
-            var_dump(password_verify($current_password, $data['user']['password']));
-            die;
             if (!password_verify($current_password, $data['user']['password'])) {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Your password is wrong! </div>');
                 redirect('user/changepassword');
@@ -105,7 +102,7 @@ class User extends CI_Controller
                     $password_hash = password_hash($new_password, PASSWORD_DEFAULT);
 
                     $this->db->set('password', $password_hash);
-                    $this->db->where('emal', $this->session->userdata('email'));
+                    $this->db->where('email', $this->session->userdata('email'));
                     $this->db->update('user');
                     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Your password is changed. </div>');
                     redirect('user');
